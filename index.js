@@ -1,6 +1,10 @@
 const inquirer = require("inquirer");
 const axios = require("axios");
+const pdf = require("html-pdf");
 const fs = require("fs");
+
+const htmlFile = fs.readFileSync("./index.html");
+const options = { format: "Letter" };
 
 inquirer
   .prompt([
@@ -230,7 +234,7 @@ function generateHTML(data, color) {
         </style>
         </head>
   <body>
-    <div class="wrapper">
+    <div class="wrapper" id="pageHeader">
       <div class="photo-header">
         <img src="${data.profile_img}" />
         <h1>Hi!</h1>
@@ -282,7 +286,7 @@ function generateHTML(data, color) {
          </div>   
     </div>
 
-    <div class="wrapper" style="height: 50%;"></div>
+    <div class="wrapper" id="pageFooter" style="height: 50%;"></div>
   </body>
 </html>`;
 
@@ -293,6 +297,13 @@ function generateHTML(data, color) {
       console.log(err);
     } else {
       console.log("HTML file generated");
+      pdf.create(html, options).toFile("./githubprofile.pdf", function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Generated PDF FILE!");
+        }
+      });
     }
   });
 }
