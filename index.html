@@ -1,88 +1,4 @@
-const inquirer = require("inquirer");
-const axios = require("axios");
-const fs = require("fs");
-
-inquirer
-  .prompt([
-    {
-      type: "input",
-      message: "What is your GitHub username?",
-      name: "username"
-    },
-    {
-      type: "list",
-      message: "What is your favorite color?",
-      name: "color",
-      choices: ["green", "blue", "pink", "red"]
-    }
-  ])
-  .then(function(response) {
-    // Get Preferred Color
-    const color = response.color;
-
-    // Query Github Data
-    const username = response.username;
-    const queryURL = `https://api.github.com/users/${username}`;
-
-    axios.get(queryURL).then(function(result) {
-      // Profile Image
-      // Username
-      // User location via Google Maps
-      // User GitHub Profile
-      // User blog
-      // User bio
-      // Number of public repositories
-      // Number of followers
-      // Number of GitHub stars
-      // Number of users following
-
-      const data = {
-        profile_img: result.data.avatar_url,
-        url: result.data.html_url,
-        name: result.data.name,
-        company: result.data.company,
-        location: result.data.location,
-        blog: result.data.blog,
-        bio: result.data.bio,
-        num_repo: result.data.public_repos,
-        num_followers: result.data.followers,
-        num_stars: result.data.public_gists,
-        num_following: result.data.following
-      };
-      console.log(data);
-      generateHTML(data, color);
-    });
-  });
-
-const colors = {
-  green: {
-    wrapperBackground: "#E6E1C3",
-    headerBackground: "#C1C72C",
-    headerColor: "black",
-    photoBorderColor: "#black"
-  },
-  blue: {
-    wrapperBackground: "#5F64D3",
-    headerBackground: "#26175A",
-    headerColor: "white",
-    photoBorderColor: "#73448C"
-  },
-  pink: {
-    wrapperBackground: "#879CDF",
-    headerBackground: "#FF8374",
-    headerColor: "white",
-    photoBorderColor: "#FEE24C"
-  },
-  red: {
-    wrapperBackground: "#DE9967",
-    headerBackground: "#870603",
-    headerColor: "white",
-    photoBorderColor: "white"
-  }
-};
-
-function generateHTML(data, color) {
-  const html = `<!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
      <head>
         <meta charset="UTF-8" />
@@ -109,7 +25,7 @@ function generateHTML(data, color) {
            height: 100%;
            }
            .wrapper {
-           background-color: ${colors[color].wrapperBackground};
+           background-color: #E6E1C3;
            padding-top: 100px;
            }
            body {
@@ -151,8 +67,8 @@ function generateHTML(data, color) {
            display: flex;
            justify-content: center;
            flex-wrap: wrap;
-           background-color: ${colors[color].headerBackground};
-           color: ${colors[color].headerColor};
+           background-color: #C1C72C;
+           color: black;
            padding: 10px;
            width: 95%;
            border-radius: 6px;
@@ -163,7 +79,7 @@ function generateHTML(data, color) {
            border-radius: 50%;
            object-fit: cover;
            margin-top: -75px;
-           border: 6px solid ${colors[color].photoBorderColor};
+           border: 6px solid #black;
            box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
            }
            .photo-header h1, .photo-header h2 {
@@ -206,8 +122,8 @@ function generateHTML(data, color) {
            .card {
              padding: 20px;
              border-radius: 6px;
-             background-color: ${colors[color].headerBackground};
-             color: ${colors[color].headerColor};
+             background-color: #C1C72C;
+             color: black;
              margin: 20px;
            }
            
@@ -232,14 +148,14 @@ function generateHTML(data, color) {
   <body>
     <div class="wrapper">
       <div class="photo-header">
-        <img src="${data.profile_img}" />
+        <img src="https://avatars3.githubusercontent.com/u/42156905?v=4" />
         <h1>Hi!</h1>
-        <h1>My name is ${data.name}!</h1>
-        <h4>Currently @ ${data.company}</h4>
+        <h1>My name is Lawrence Adrian De Belen!</h1>
+        <h4>Currently @ null</h4>
         <div class="links-nav">
-          <a class="nav-link" href="http://maps.google.com/?q=${data.location}" target="_blank"><i class="fas fa-location-arrow"></i> ${data.location}</a>
-          <a class="nav-link" href="${data.url}" target="_blank"><i class="fab fa-github"></i> Github</a>
-          <a class="nav-link" href="${data.blog}" target="_blank"><i class="fas fa-rss"></i> Blog</a>
+          <a class="nav-link" href="http://maps.google.com/?q=Overland Park, Kansas" target="_blank"><i class="fas fa-location-arrow"></i> Overland Park, Kansas</a>
+          <a class="nav-link" href="https://github.com/ltdebelen" target="_blank"><i class="fab fa-github"></i> Github</a>
+          <a class="nav-link" href="" target="_blank"><i class="fas fa-rss"></i> Blog</a>
         </div>
       </div>
     </div>
@@ -247,7 +163,7 @@ function generateHTML(data, color) {
     <div class="main">
         <div class="container">
         <h2 style="text-align: center;">
-            ${data.bio}
+            Front End Web Developer with experience in creating websites and web applications flexible to client needs. Graduated Cum Laude with a Bachelor’s Degree in IT
         </h2>
             <div class="row">
                 <div class="col">
@@ -255,13 +171,13 @@ function generateHTML(data, color) {
                     <h2>
                     Public Repositories
                     </h2>
-                    <h3>${data.num_repo}</h3>
+                    <h3>15</h3>
                 </div>
                 <div class=" col card">
                     <h2>
                     Followers
                     </h2>
-                    <h3>${data.num_followers}</h3>
+                    <h3>1</h3>
                 </div>
                 </div>
                 <div class="col">
@@ -269,13 +185,13 @@ function generateHTML(data, color) {
                     <h2>
                     Public Stars
                     </h2>
-                    <h3>${data.num_stars}</h3>
+                    <h3>0</h3>
                 </div>
                 <div class="card">
                     <h2>
                     Following
                     </h2>
-                    <h3>${data.num_followers}</h3>
+                    <h3>1</h3>
                 </div>
                 </div>
             </div>
@@ -284,15 +200,4 @@ function generateHTML(data, color) {
 
     <div class="wrapper" style="height: 50%;"></div>
   </body>
-</html>`;
-
-  const filename = "index.html";
-
-  fs.writeFile(filename, html, function(err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("HTML file generated");
-    }
-  });
-}
+</html>
