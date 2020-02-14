@@ -3,8 +3,7 @@ const axios = require("axios");
 const pdf = require("html-pdf");
 const fs = require("fs");
 
-const htmlFile = fs.readFileSync("./index.html");
-const options = { format: "Letter" };
+const options = {};
 
 inquirer
   .prompt([
@@ -63,7 +62,7 @@ const colors = {
     wrapperBackground: "#E6E1C3",
     headerBackground: "#C1C72C",
     headerColor: "black",
-    photoBorderColor: "#black"
+    photoBorderColor: "black"
   },
   blue: {
     wrapperBackground: "#5F64D3",
@@ -131,7 +130,7 @@ function generateHTML(data, color) {
            margin: 0;
            }
            h1 {
-           font-size: 3em;
+           font-size: 2.7em;
            }
            h2 {
            font-size: 2.5em;
@@ -167,6 +166,8 @@ function generateHTML(data, color) {
            border-radius: 50%;
            object-fit: cover;
            margin-top: -75px;
+           margin: 0 auto;
+           display: block;
            border: 6px solid ${colors[color].photoBorderColor};
            box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
            }
@@ -231,15 +232,28 @@ function generateHTML(data, color) {
               zoom: .75; 
             } 
            }
+
+           @media (min-width: 576px) {
+            .wrapper {
+              height: 75%;
+            }
+            .row {
+              display: inline;
+            }
+            #bottom-wrapper {
+              padding-top: 0;
+              height: 20% !important;
+            }
+          }
         </style>
         </head>
   <body>
-    <div class="wrapper" id="pageHeader">
+    <div class="wrapper">
       <div class="photo-header">
-        <img src="${data.profile_img}" />
-        <h1>Hi!</h1>
-        <h1>My name is ${data.name}!</h1>
-        <h4>Currently @ ${data.company}</h4>
+          <img src="${data.profile_img}" />
+          <h1>Hi!</h1>
+          <h1>My name is ${data.name}!</h1>
+          <h4 style="text-align:center;">Currently @ ${data.company}</h4>
         <div class="links-nav">
           <a class="nav-link" href="http://maps.google.com/?q=${data.location}" target="_blank"><i class="fas fa-location-arrow"></i> ${data.location}</a>
           <a class="nav-link" href="${data.url}" target="_blank"><i class="fab fa-github"></i> Github</a>
@@ -257,11 +271,11 @@ function generateHTML(data, color) {
                 <div class="col">
                 <div class="card">
                     <h2>
-                    Public Repositories
+                    Repositories
                     </h2>
                     <h3>${data.num_repo}</h3>
                 </div>
-                <div class=" col card">
+                <div class="card">
                     <h2>
                     Followers
                     </h2>
@@ -286,7 +300,7 @@ function generateHTML(data, color) {
          </div>   
     </div>
 
-    <div class="wrapper" id="pageFooter" style="height: 50%;"></div>
+    <div class="wrapper" style="height: 17.5%;"></div>
   </body>
 </html>`;
 
