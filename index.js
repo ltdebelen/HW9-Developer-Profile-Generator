@@ -3,8 +3,6 @@ const axios = require("axios");
 const pdf = require("html-pdf");
 const fs = require("fs");
 
-const options = {};
-
 inquirer
   .prompt([
     {
@@ -52,7 +50,6 @@ inquirer
         num_stars: result.data.public_gists,
         num_following: result.data.following
       };
-      console.log(data);
       generateHTML(data, color);
     });
   });
@@ -311,11 +308,11 @@ function generateHTML(data, color) {
       console.log(err);
     } else {
       console.log("HTML file generated");
-      pdf.create(html, options).toFile("./githubprofile.pdf", function(err) {
+      pdf.create(html, null).toFile("./githubprofile.pdf", function(err) {
         if (err) {
           console.log(err);
         } else {
-          console.log("Generated PDF FILE!");
+          console.log("PDF file generated");
         }
       });
     }
